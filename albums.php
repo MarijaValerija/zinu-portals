@@ -31,7 +31,7 @@
 					<div class="title">Visi fotoalbumi</div>
 					<div class="albums_big">
 						<?php
-							$dbq=mysqli_query($link, "select a.id, a.cover, a.album_title, a.comment, a.created_by, i.image_path from albums a left outer join images i on a.cover = i.id order by a.updated_at DESC") or die("Invalid query: " . mysqli_error($link));
+							$dbq=mysqli_query($link, "select a.id, a.cover, a.album_title, a.comment, a.created_by, i.image_path, u.first_name from albums a left outer join images i on a.cover = i.id left outer join users u on u.id = a.created_by order by a.updated_at DESC") or die("Invalid query: " . mysqli_error($link));
 								//sarežģīts vaicājums no divām tabulām, vienlaicīgi iegūstot ceļu uz attēlu uz vāka no otras tabulas
 							while($r = mysqli_fetch_assoc($dbq)) {
 								echo "<div class=\"album_big\">";
@@ -49,6 +49,7 @@
 								}
 								echo "</div>";
 								echo "<div class=\"album_big_txt\">" . $r["comment"] . "</div>";
+								echo "<span class=\"article_date\">Autors: " . $r["first_name"] . "</span>";
 								echo "</div>";
 								echo "</div>";
 							}

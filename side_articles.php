@@ -5,12 +5,12 @@
 
 	while($r = mysqli_fetch_assoc($dbq)) {
 		echo "<div class=\"small_article\">";
-		if(strlen($r["post_title"]) > 29) { //STRLEN - cik burti ir nosaukumā
+		if(strlen($r["post_title"]) > 30) { //STRLEN - cik burti ir nosaukumā
 			echo "<div class=\"small_title\">" . substr($r["post_title"], 0, 30) . " ...</div>";
 		} else {
 			echo "<div class=\"small_title\">" . $r["post_title"] . "</div>";
 		}
-		if(strlen($r["body"]) > 189) {
+		if(strlen($r["body"]) > 190) {
 			echo "<div class=\"small_text\">" . substr($r["body"], 0, 190) . " ...</div>";
 		} else {
 			echo "<div class=\"small_text\">" . $r["body"] . "</div>";

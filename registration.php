@@ -7,12 +7,17 @@
 		$email = $_POST["email"];
 		$password = md5($_POST["password"]);
 		
+		
 		if(empty($first_name)) {$first_name_err = "Lauks “Vārds” ir obligāts";}
 		if(empty($last_name)) {$last_name_err = "Lauks “Uzvārds” ir obligāts";}
 		if(empty($email)) {$email_err = "Lauks “E-pasts” ir obligāts";}
 		if(empty($_POST["password"])) {$password_err = "Lauks “Parole” ir obligāts";}
 		
-		if(!isset($first_name_err) && !isset($last_name_err) && !isset($email_err) && !isset($password_err)) {
+		$password2 = $_POST["password"];
+		
+		if ($password != $password2) {$password2_err = "Ievadītā “Parole” nesakrīt ar iepriekšējo";} 
+		
+		if(!isset($first_name_err) && !isset($last_name_err) && !isset($email_err) && !isset($password_err) && !isset($password2_err)) {
 			mysqli_query($link, "INSERT INTO users (first_name, last_name, email, password) VALUES ('$first_name', '$last_name', '$email', '$password')") or die("Invalid query: " . mysqli_error($link));
 			header("location: login.php");
 			exit;
@@ -36,6 +41,9 @@
 							<?php if(isset($email_err)) {echo "<div class=\"error\">" . $email_err . "</div>";} ?>
 							<div class="input_block"><input name="email" type="text" placeholder="E-pasts" class="input"></div>
 							<?php if(isset($password_err)) {echo "<div class=\"error\">" . $password_err . "</div>";} ?>
+							<div class="input_block"><input name="password" type="password" placeholder="Parole" class="input"></div>
+							<?php if(isset($password_err)) {echo "<div class=\"error\">" . $password_err . "</div>";} ?>
+							<?php if(isset($password2_err)) {echo "<div class=\"error\">" . $password2_err . "</div>";} ?>
 							<div class="input_block"><input name="password" type="password" placeholder="Parole" class="input"></div>
 							<div class="input_block"><input type="submit" value="Registrēties" class="btn"></div>
 						</form>

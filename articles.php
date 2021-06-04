@@ -27,19 +27,34 @@
 					</div>
 					<div class="articles_big">
 						<?php
-							$dbq=mysqli_query($link, "select * from posts ORDER BY updated_at DESC") or die("Invalid query: " . mysqli_error($link)); //Funkcija tiek izmantota, lai vienkāršotu vaicājuma izpildi pret datu bāzi, kuru attēlo saites parametrs.
-
+//							$dbq=mysqli_query($link, "select * from posts ORDER BY updated_at DESC") or die("Invalid query: " . mysqli_error($link)); //Funkcija tiek izmantota, lai vienkāršotu vaicājuma izpildi pret datu bāzi, kuru attēlo saites parametrs.
+//
+//							while($r = mysqli_fetch_assoc($dbq)) {
+//								echo "<div class=\"article\">";
+//							echo "<div class=\"article_header\">";
+//							echo "<div class=\"article_title\">" . $r["post_title"] . "</div>";
+//							echo "<div class=\"article_date\">" . $r["updated_at"] . " ";
+//							if((isset($_SESSION["role"]) && $_SESSION["role"] == 3) || ($_SESSION["role"] == 2 && $r["created_by"] == $_SESSION["id"])) {	//pārbauda vai tāda vērtība IR && pārbauda lomu VAI ...						
+//								echo "<a href=\"delete_article.php?id=" . $r["id"] . "\" class=\"no_link\"><i class=\"far fa-trash-alt\"></i></a>";
+//							}
+//							echo "</div></div>";
+//							
+//							echo "<div class=\"article_text\">" . nl2br($r["body"]) . "</div></div>";
+//							}
+							$dbq=mysqli_query($link, "select p.id, p.created_by, p.post_title, p.body, p.updated_at, u.first_name, u.last_name from posts p left outer join users u on p.created_by = u.id ORDER BY p.updated_at DESC") or die("Invalid query: " . mysqli_error($link)); //Funkcija tiek izmantota, lai vienkāršotu vaicājuma izpildi pret datu bāzi, kuru attēlo saites parametrs.
+								
 							while($r = mysqli_fetch_assoc($dbq)) {
 								echo "<div class=\"article\">";
-							echo "<div class=\"article_header\">";
-							echo "<div class=\"article_title\">" . $r["post_title"] . "</div>";
-							echo "<div class=\"article_date\">" . $r["updated_at"] . " ";
-							if((isset($_SESSION["role"]) && $_SESSION["role"] == 3) || ($_SESSION["role"] == 2 && $r["created_by"] == $_SESSION["id"])) {	//pārbauda vai tāda vērtība IR && pārbauda lomu VAI ...						
-								echo "<a href=\"delete_article.php?id=" . $r["id"] . "\" class=\"no_link\"><i class=\"far fa-trash-alt\"></i></a>";
-							}
-							echo "</div></div>";
-							
-							echo "<div class=\"article_text\">" . nl2br($r["body"]) . "</div></div>";
+								echo "<div class=\"article_header\">";
+								echo "<div class=\"article_title\">" . $r["post_title"] . "</div>";
+								echo "<div class=\"article_date\">" . $r["updated_at"] . "<br>";
+								echo " Autors: " . $r["first_name"] . "<br>";
+								if((isset($_SESSION["role"]) && $_SESSION["role"] == 3) || ($_SESSION["role"] == 2 && $r["created_by"] == $_SESSION["id"])) {	//pārbauda vai tāda vērtība IR && pārbauda lomu VAI ...						
+									echo "<a href=\"delete_article.php?id=" . $r["id"] . "\" class=\"no_link\"><i class=\"far fa-trash-alt\"></i></a>";
+								}
+								echo "</div></div>";
+								
+								echo "<div class=\"article_text\">" . nl2br($r["body"]) . "</div></div>";
 							}
 						?>
 					</div>
